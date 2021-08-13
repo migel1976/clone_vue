@@ -28,17 +28,20 @@
                        placeholder="password"
                        />
               </fieldset>
-              <button class="btn btn-lg btn-primary pull-xs-right">
+              <button class="btn btn-lg btn-primary pull-xs-right"
+                      :disabled="isSubmitting"
+                  >
                 Sign Up
               </button>
             </form>
-            <button
-              @click="increaseCounter"
-              >Increase counter</button>
-              {{count}}
-            <button
-              @click="decrementCounter"
-              >Уменьшить счетчик</button>
+            
+            <!--<button-->
+            <!--@click="increaseCounter">-->
+              <!--Increase counter</button>-->
+              <!--{{count}}-->
+            <!--<button-->
+              <!--@click="decrementCounter" >-->
+              <!--Уменьшить счетчик</button>-->
         </div>
       </div>
     </div>
@@ -48,20 +51,24 @@
  export default{
    name:'Register',
    computed:{
-     count(){
-       return this.$store.state.count
-     },
+       isSubmitting(){
+           return this.$store.state.auth.isSubmitting
+       }
+     //count(){
+       //return this.$store.state.count
+     //},
    },
    methods:{
      onSubmit(){
-       alert('aloha')
+         //this.$store.commit('registerStart')//вызов мутации
+         this.$store.dispatch('register')//вызов actions
      },
-     increaseCounter(){
-       this.$store.commit('increment')
-     },
-     decrementCounter(){
-       this.$store.commit('dicrement')
-     }
+     // increaseCounter(){
+     //   this.$store.commit('increment')
+     // },
+     // decrementCounter(){
+     //   this.$store.commit('dicrement')
+     // }
    }
  }
 </script>
