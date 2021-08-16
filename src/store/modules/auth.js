@@ -67,10 +67,24 @@ const actions={
 					context.commit(mutationTypes.registerFailure,result.response.data.errors)
 				})
 		})
-		// setTimeout(()=>{
-		// 	context.commit('registerStart')
-		// },1000)
+	},
+	[actionTypes.login](context,credentials){
+		return new Promise(resolve=>{
+			context.commit(mutationTypes.loginStart)
+			authApi
+				.login(credentials)
+				.then(response=>{
+					context.commit(mutationTypes.loginSuccess,response.data.user)
+					setItem('accessToken',response.data.user.token)
+					resolve(response.data.user)
+				})
+				.catch(result=>{
+					context.commit(mutationTypes.loginFailure,result.response.data.errors)
+				})
+		})
 	}
+
+
 }
 			
 

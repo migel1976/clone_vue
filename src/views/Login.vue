@@ -1,11 +1,12 @@
+
 <template>
   <div class="auth-page">
     <div class="container page">
       <div class="row">
         <div class="col-md-6 offset-md-3 col-xs-12">
           <p class="text-xs-center">
-            <router-link :to="{name:'login'}">
-              Have an account?
+            <router-link :to="{name:'register'}">
+              Need an Account?
             </router-link>
           </p>
             <ValidationErrors 
@@ -13,13 +14,6 @@
                 :validationErrors="validationErrors"
             />
             <form @submit.prevent="onSubmit">
-              <fieldset class="form-group">
-                <input type="text"
-                       class="form-control form-control-lg"
-                       placeholder="Username"
-                       v-model="username"
-                       />
-              </fieldset>
               <fieldset class="form-group">
                 <input type="text"
                        class="form-control form-control-lg"
@@ -37,7 +31,7 @@
               <button class="btn btn-lg btn-primary pull-xs-right"
                       :disabled="isSubmitting"
                   >
-                Sign Up
+                Sign In
               </button>
             </form>
         </div>
@@ -50,7 +44,7 @@
  import ValidationErrors from '@/components/ValidationErrors'
  import {mapState} from 'vuex'
  export default{
-   name:'Register',
+   name:'Login',
    components:{
      ValidationErrors
    },
@@ -58,7 +52,6 @@
      return{
        email:this.email,
        password:this.password,
-       username:this.username
      }
    },
    computed:{
@@ -75,13 +68,11 @@
    },
    methods:{
      onSubmit(){
-         this.$store.dispatch(actionTypes.register,
+         this.$store.dispatch(actionTypes.login,
                               {email:this.email,
-                               username:this.username,
                                password:this.password}
            )
-           .then(user=>{
-             console.log('пользователь создан',user)
+           .then(()=>{
              this.$router.push({name:'home'})
            })
      },
