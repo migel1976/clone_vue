@@ -8,7 +8,10 @@
               Need an account
             </router-link>
           </p>
-            Validation Error
+            <ValidationErrors 
+                v-if="validationErrors"
+                :validationErrors="validationErrors"
+            />
             <form @submit.prevent="onSubmit">
               <fieldset class="form-group">
                 <input type="text"
@@ -43,8 +46,12 @@
   </div>
 </template>
 <script>
+ import ValidationErrors from '@/components/ValidationErrors'
  export default{
    name:'Register',
+   components:{
+     ValidationErrors
+   },
    data(){
      return{
        email:this.email,
@@ -55,7 +62,10 @@
    computed:{
        isSubmitting(){
            return this.$store.state.auth.isSubmitting
-       }
+       },
+       validationErrors(){
+         return this.$store.state.auth.validationErrors
+      }      
      //count(){
        //return this.$store.state.count
      //},

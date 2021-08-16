@@ -1,4 +1,5 @@
 import authApi from '@/api/auth'
+import {setItem} from '@/helpers/persistanceStorage'
 
 const state={
 	isSubmitting:false,
@@ -19,7 +20,7 @@ const mutations={
 	},
 	registerFailure(state,payload){
 		state.isSubmitting=false
-		state.currentUser=payload
+		state.validationErrors=payload
 	},
 }
 
@@ -32,7 +33,7 @@ const actions={
 				.then(response=>{
 					console.log('response',response)
 					context.commit('registerSuccess',response.data.user)
-					window.localStorage.setItem('accessToken',response.data.user.token)
+					setItem('accessToken',response.data.user.token)
 					resolve(response.data.user)
 				})
 				.catch(result=>{
