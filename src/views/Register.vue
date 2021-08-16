@@ -63,12 +63,13 @@
    methods:{
      onSubmit(){
          this.$store.dispatch('register',
-                              {email:"dslfj@jlj.com",
-                               username:"hkhk",
-                               password:"fkwljljljlhk"}
+                              {email:this.email,
+                               username:this.username,
+                               password:this.password}
            )
            .then(user=>{
              console.log('пользователь создан',user)
+             this.$router.push({name:'home'})
            })
      },
    }
