@@ -14,18 +14,21 @@
                 <input type="text"
                        class="form-control form-control-lg"
                        placeholder="Username"
+                       v-model="username"
                        />
               </fieldset>
               <fieldset class="form-group">
                 <input type="text"
                        class="form-control form-control-lg"
                        placeholder="e-mail"
+                       v-model="email"
                        />
               </fieldset>
               <fieldset class="form-group">
                 <input type="password"
                        class="form-control form-control-lg"
                        placeholder="password"
+                       v-model="password"
                        />
               </fieldset>
               <button class="btn btn-lg btn-primary pull-xs-right"
@@ -34,14 +37,6 @@
                 Sign Up
               </button>
             </form>
-            
-            <!--<button-->
-            <!--@click="increaseCounter">-->
-              <!--Increase counter</button>-->
-              <!--{{count}}-->
-            <!--<button-->
-              <!--@click="decrementCounter" >-->
-              <!--Уменьшить счетчик</button>-->
         </div>
       </div>
     </div>
@@ -50,6 +45,13 @@
 <script>
  export default{
    name:'Register',
+   data(){
+     return{
+       email:this.email,
+       password:this.password,
+       username:this.username
+     }
+   },
    computed:{
        isSubmitting(){
            return this.$store.state.auth.isSubmitting
@@ -60,15 +62,15 @@
    },
    methods:{
      onSubmit(){
-         //this.$store.commit('registerStart')//вызов мутации
-         this.$store.dispatch('register')//вызов actions
+         this.$store.dispatch('register',
+                              {email:"dslfj@jlj.com",
+                               username:"hkhk",
+                               password:"fkwljljljlhk"}
+           )
+           .then(user=>{
+             console.log('пользователь создан',user)
+           })
      },
-     // increaseCounter(){
-     //   this.$store.commit('increment')
-     // },
-     // decrementCounter(){
-     //   this.$store.commit('dicrement')
-     // }
    }
  }
 </script>
