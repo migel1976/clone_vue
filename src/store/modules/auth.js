@@ -7,38 +7,64 @@ const state={
 	validationErrors:null,
 	isLoggedIn:null
 }
+export const mutationTypes={
+	registerStart:'[auth] registerStart',
+	registerSuccess:'[auth] registerSuccess',
+	registerFailure:'[auth] registerFailure',
+	loginStart:'[auth] registerStart',
+	loginSuccess:'[auth] registerSuccess',
+	loginFailure:'[auth] registerFailure'
+}
+
+export const actionTypes={
+	register:'[auth] register',
+	login:'[auth] login'
+}
 
 const mutations={
-	registerStart(state){
+	[mutationTypes.registerStart](state){
 		state.isSubmitting=true
 		state.validationErrors=null
 	},
-	registerSuccess(state,payload){
+	[mutationTypes.registerSuccess](state,payload){
 		state.isSubmitting=false
 		state.currentUser=payload
 		state.isLoggedIn=true
 	},
-	registerFailure(state,payload){
+	[mutationTypes.registerFailure](state,payload){
 		state.isSubmitting=false
 		state.validationErrors=payload
 	},
+	[mutationTypes.loginStart](state){
+		state.isSubmitting=true
+		state.validationErrors=null
+	},
+	[mutationTypes.loginSuccess](state,payload){
+		state.isSubmitting=false
+		state.currentUser=payload
+		state.isLoggedIn=true
+	},
+	[mutationTypes.loginFailure](state,payload){
+		state.isSubmitting=false
+		state.validationErrors=payload
+	}
 }
 
 const actions={
-	register(context,credentials){
+	[actionTypes.register](context,credentials){
 		return new Promise(resolve=>{
-			context.commit('registerStart')
+			context.commit(mutationTypes.registerStart)
 			authApi
 				.register(credentials)
 				.then(response=>{
 					console.log('response',response)
-					context.commit('registerSuccess',response.data.user)
+					context.commit(mutationTypes.registerSuccess,response.data.user)
 					setItem('accessToken',response.data.user.token)
 					resolve(response.data.user)
 				})
 				.catch(result=>{
 					console.log('result errors',result)
-					context.commit('registerFailure',result.response.data.errors)
+					context.commit(mutationTypes.registerFailure,result.response.data.errors)
 				})
 		})
 		// setTimeout(()=>{

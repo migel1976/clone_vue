@@ -46,6 +46,7 @@
   </div>
 </template>
 <script>
+import {actionTypes} from '@/store/modules/auth'
  import ValidationErrors from '@/components/ValidationErrors'
  export default{
    name:'Register',
@@ -72,7 +73,7 @@
    },
    methods:{
      onSubmit(){
-         this.$store.dispatch('register',
+         this.$store.dispatch(actionTypes.register,
                               {email:this.email,
                                username:this.username,
                                password:this.password}
