@@ -2,6 +2,7 @@ import authApi from '@/api/auth'
 import {setItem} from '@/helpers/persistanceStorage'
 
 const state={
+	isLoading:false,
 	isSubmitting:false,
 	currentUser:null,
 	validationErrors:null,
@@ -11,14 +12,20 @@ export const mutationTypes={
 	registerStart:'[auth] registerStart',
 	registerSuccess:'[auth] registerSuccess',
 	registerFailure:'[auth] registerFailure',
+
 	loginStart:'[auth] registerStart',
 	loginSuccess:'[auth] registerSuccess',
-	loginFailure:'[auth] registerFailure'
+	loginFailure:'[auth] registerFailure',
+
+	getCurrentUserStart:'[auth] getCurrentUserStart',
+	getCurrentUserSuccess:'[auth] getCurrentUserSuccess',
+	getCurrentUserFailure:'[auth] getCurrentUserFailure'
 }
 
 export const actionTypes={
 	register:'[auth] register',
-	login:'[auth] login'
+	login:'[auth] login',
+	getCurrentUser:'[auth] getCurrentUser'
 }
 
 export const getterType={
@@ -65,6 +72,19 @@ const mutations={
 	[mutationTypes.loginFailure](state,payload){
 		state.isSubmitting=false
 		state.validationErrors=payload
+	},
+	[mutationTypes.getCurrentUserStart](state){
+		state.isLoading=true
+	},
+	[mutationTypes.getCurrentUserSuccess](state,payload){
+		state.isLoading=false
+		state.currentUser=payload
+		state.isLoggedIn=true
+	},
+	[mutationTypes.getCurrentUserFailure](state){
+		state.isLoggedIn=false
+		state.currentUser=null
+		state.isLoading=false
 	}
 }
 
@@ -98,6 +118,20 @@ const actions={
 				})
 				.catch(result=>{
 					context.commit(mutationTypes.loginFailure,result.response.data.errors)
+				})
+		})
+	},
+	[actionTypes.getCurrentUser](context){
+		return new Promise(resolve=>{
+			context.commit(mutationTypes.getCurrentUserStart)
+			authApi
+				.getCurrentUser()
+				.then(response=>{
+					context.commit(mutationTypes.getCurrentUserSuccess,response.data.user)
+					resolve(response.data.user)
+				})
+				.catch(()=>{
+					context.commit(mutationTypes.getCurrentUserFailure)
 				})
 		})
 	}
