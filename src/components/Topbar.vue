@@ -36,7 +36,7 @@
             </router-link>
           </li>
         </template>
-        <template v-if="!isLoggedIn">
+        <template v-if="isAnonymous">
           <li class="nav-item">
             <router-link 
               class="nav-link" 
@@ -62,14 +62,29 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import {getterType} from '@/store/modules/auth'
+  import {mapState,mapGetters} from 'vuex'
   export default{
     name:'Topbar',
     computed:{
       ...mapState({
-        currentUser:state=>state.auth.currentUser,
-        isLoggedIn:state=>state.auth.isLoggedIn
-      })
+        //currentUser:state=>state.auth.currentUser,
+        // isLoggedIn:state=>state.auth.isLoggedIn
+      }),
+      ...mapGetters({
+          currentUser:getterType.currentUser,
+        isLoggedIn:getterType.isLoggedIn,
+          isAnonymous:getterType.isAnonymous,
+      }),
+        // currentUser(){
+        //  return this.$store.getters[getterType.currentUser]
+        // },
+        // isLoggedIn(){
+        //  return this.$store.getters[getterType.isLoggedIn]
+        // },
+        // isAnonymous(){
+        //  return this.$store.getters[getterType.isAnonymous]
+        // }
     }
   }
 </script>
