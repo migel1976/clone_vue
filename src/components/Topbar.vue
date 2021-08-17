@@ -6,7 +6,12 @@
       </router-link>
       <ul class="nav navbar-nav pull-xs-right">
         <li class="nav-item">
-          <router-link class="nav-link" :to="{name:'home'}">
+          <router-link 
+            class="nav-link"
+            :to="{name:'home'}"
+            active-class="active"
+            exact
+            >
             Home
           </router-link>
         </li>
@@ -28,6 +33,26 @@
               <img class="user-pic" :src="currentUser.image" />
               &nbsp;
               {{currentUser.username}}
+            </router-link>
+          </li>
+        </template>
+        <template v-if="!isLoggedIn">
+          <li class="nav-item">
+            <router-link 
+              class="nav-link" 
+              :to="{name:'login'}"
+              active-class="active"
+              >
+              Sign In
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link 
+              class="nav-link"
+              :to="{name:'register'}"
+              active-class="active"
+              >
+              Sign Up
             </router-link>
           </li>
         </template>
