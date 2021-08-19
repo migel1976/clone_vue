@@ -82,7 +82,7 @@
            )
            .then(user=>{
              console.log('пользователь создан',user)
-             this.$router.push({name:'home'})
+             this.$router.push({name:'globalFeed'})
            })
      },
    }
